@@ -14,10 +14,12 @@ class BaseFilter:
     def test(self):
         file = os.path.join(self.directory_path, self.file)
         with open(file, "wt", encoding="utf-8") as f:
+            first_iteration = True
             for email_name, _ in Corpus(self.directory_path).emails():
-                if email_name != 0:
+                if not first_iteration:
                     f.write("\n")
-                    
+                first_iteration = False
+                
                 if self.filter_output is None:
                     self.filter_output = random.choice(["SPAM", "OK"])
                 
