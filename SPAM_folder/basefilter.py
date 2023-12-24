@@ -3,20 +3,20 @@ from corpus import Corpus
 
 class BaseFilter:
         
-    def train(self, folde_path):
+    def train(self, directory_path):
         raise NotImplementedError("Implement")
     
-    def test(self, folder_path):
+    def test(self, directory_path):
         self.file = "!prediction.txt"
-        self.write_to_file(folder_path)
+        self.write_to_file(directory_path)
     
     def compute_result(self, body):
         raise NotImplementedError("Implement")
     
-    def write_to_file(self, folder_path):
-        file = os.path.join(folder_path, self.file)
+    def write_to_file(self, directory_path):
+        file = os.path.join(directory_path, self.file)
         with open(file, 'w', encoding="utf-8")as f:
-            for name, body in Corpus(folder_path).emails():
+            for name, body in Corpus(directory_path).emails():
                 body = body.lower()
                 f.write(f"{name} {self.compute_result(body)}\n")
                 
