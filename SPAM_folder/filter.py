@@ -3,15 +3,15 @@ from trainingcorpus import TrainingCorpus
 from corpus import Corpus
 
 class MyFilter(BaseFilter):
-    def train(self, folder_path):
+    def train(self, directory_path):
         self.sender = []
         self.subject = []
-        for name, body in Corpus(folder_path).emails():
-            if TrainingCorpus(folder_path).get_class(name) == "SPAM":
+        for name, body in Corpus(directory_path).emails():
+            if TrainingCorpus(directory_path).get_class(name) == "SPAM":
                 body = body.lower()
                 self.sender.append(self.find_sender(body))
-                self.subject.append(self.find_subject(body))
-    
+                self.subject.append(self.find_subject(body)) 
+                
     def compute_result(self, body):
         count = 0
         count += self.check_for_sender(body, self.sender)
