@@ -7,7 +7,7 @@ class BaseFilter:
         raise NotImplementedError("Implement")
     
     def test(self, folder_path):
-        self.file = "!prediction"
+        self.file = "!prediction.txt"
         self.write_to_file(folder_path)
     
     def compute_result(self, body):
