@@ -8,19 +8,20 @@ class BinaryConfusionMatrix:
         self.fn = 0
 
     def as_dict(self):
-        return {'tp':0, 'tn':0,'fp':0, 'fn':0}
+        return {'tp': self.tp, 'tn': self.tn,'fp': self.fp, 'fn': self.fn}
     
     def update(self, truth, prediction):
-        if(truth == self.pos_tag):
-            if(prediction == self.pos_tag):
+        if truth == prediction:
+            if truth == self.pos_tag:
                 self.tp += 1
-            elif(prediction == self.neg_tag):
-                self.fn += 1
-        elif(truth == self.neg_tag):
-            if(prediction == self.pos_tag):
-                self.fp += 1
-            elif(prediction == self.neg_tag):
+            elif truth == self.neg_tag:
                 self.tn += 1
+        elif truth == self.neg_tag and prediction == self.pos_tag:
+                self.fp += 1
+        elif truth == self.pos_tag and prediction == self.neg_tag:
+                self.fn += 1
+        else:
+            raise ValueError
 
     def compute_from_dicts(self, truth_dict, pred_dict):
         for key in truth_dict:
