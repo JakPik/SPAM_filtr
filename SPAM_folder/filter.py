@@ -3,6 +3,7 @@ from trainingcorpus import TrainingCorpus
 from corpus import Corpus
 
 class MyFilter(BaseFilter):
+
     def train(self, directory_path):
         self.sender = []
         self.subject = []
@@ -14,9 +15,10 @@ class MyFilter(BaseFilter):
                 
     def compute_result(self, body):
         count = 0
-        count += self.check_for_sender(body, self.sender)
+        # main errors in functions check_for_sender and check_for_subject
+        count += self.check_for_sender(body, self.sender) 
         count += self.check_for_subject(body, self.subject)
-        if count > 0:
+        if count != 0:
             return "SPAM"
         else:
             return "OK"
