@@ -4,27 +4,27 @@ from corpus import Corpus
 
 class MyFilter(BaseFilter):
 
+    def __init__(self):
+        super().__init__()
+        self.spam_senders = []
+
     def train(self, directory_path):
-        self.sender = []
-        self.subject = []
+        training_corpus = TrainingCorpus(directory_path)
+        #self.subject = []
         for name, body in Corpus(directory_path).emails():
-            if TrainingCorpus(directory_path).get_class(name) == "SPAM":
-                body = body.lower()
-                self.sender.append(self.find_sender(body))
-                self.subject.append(self.find_subject(body)) 
+            if training_corpus.get_class(name) == "SPAM":
+                sender = self.find_sender(body)
+                if sender is not None and sender not in self.spam_senders:
+                    self.spam_senders.append(sender)
+                # self.subject.append(self.find_subject(body)) 
                 
     def compute_result(self, body):
         count = 0
-        # main errors in functions check_for_sender and check_for_subject
-        count += self.check_for_sender(body, self.sender) 
-        count += self.check_for_subject(body, self.subject)
+        count += self.check_for_sender(body, self.spam_senders) 
+        # count += self.check_for_subject(body, self.subject)
         if count != 0:
             return "SPAM"
         else:
             return "OK"
 
-    
-if __name__ == "__main__":
-    tests = MyFilter()
-    tests.train("./Python/SPAM_filter/test")
-    tests.test("./Python/SPAM_filter/test")
+ 
