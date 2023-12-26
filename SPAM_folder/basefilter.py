@@ -31,8 +31,6 @@ class BaseFilter:
                 return array[count + 1]
             count += 1
         return None
-  
-
     
     def find_subject(self, body):
         array = body.split()
@@ -56,29 +54,9 @@ class BaseFilter:
     
     def check_for_sender(self, body, spam_senders):
         sender = self.find_sender(body)
-        if sender is not None:
-            if sender in spam_senders:
-                return 1
-        return 0
+        return 1 if sender and sender in spam_senders else 0
     
-    """ def check_for_sender(self, body, sender):
-        array = body.split()
-        count = 0
-
-        while count < len(array):
-            if array[count] in sender:
-                return 1
-            else:
-                count += 1
-        return 0 """
-    
-    def check_for_subject(self, body, subject):
-        array = body.split()
-        count = 0
-
-        while count < len(array):
-            if array[count] in subject:
-                return 1
-            else:
-                count += 1
-        return 0
+    def check_for_subject(self, body, spam_subjects):
+        subject = self.find_subject(body)
+        return 1 if subject and subject in spam_subjects else 0
+        
